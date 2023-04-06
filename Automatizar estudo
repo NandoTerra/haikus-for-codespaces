@@ -1,0 +1,164 @@
+import java.util.*;
+public class ExercicioInformatizado {
+
+private Map<String, List<Questao>> disciplinas;
+
+private Map<String, List<String>> gabaritos;
+
+public ExercicioInformatizado() {
+
+disciplinas = new HashMap<>();
+
+gabaritos = new HashMap<>();
+
+}
+
+public void cadastrarDisciplina(String nomeDisciplina, List<Questao> questoes) {
+
+disciplinas.put(nomeDisciplina, questoes);
+
+}
+
+public void cadastrarGabarito(String nomeDisciplina, List<String> gabarito) {
+
+gabaritos.put(nomeDisciplina, gabarito);
+
+}
+
+public Teste gerarTesteAleatorio(String nomeDisciplina, int numQuestoes) {
+
+List<Questao> questoes = disciplinas.get(nomeDisciplina);
+
+if (questoes == null || questoes.isEmpty()) {
+
+System.out.println("Não existem questões cadastradas para essa disciplina.");
+
+return null;
+
+}
+
+if (numQuestoes > questoes.size()) {
+
+System.out.println("Não há questões suficientes cadastradas para essa disciplina.");
+
+return null;
+
+}
+
+List<Questao> questoesAleatorias = new ArrayList<>();
+
+Set<Integer> indicesSorteados = new HashSet<>();
+
+Random random = new Random();
+
+while (questoesAleatorias.size() < numQuestoes) {
+
+int indice = random.nextInt(questoes.size());
+
+if (!indicesSorteados.contains(indice)) {
+
+questoesAleatorias.add(questoes.get(indice));
+
+indicesSorteados.add(indice);
+
+}
+
+}
+
+List<String> gabarito = gabaritos.get(nomeDisciplina);
+
+if (gabarito == null || gabarito.isEmpty()) {
+
+System.out.println("Não existe gabarito cadastrado para essa disciplina.");
+
+return null;
+
+}
+
+return new Teste(nomeDisciplina, new Date(), questoesAleatorias, gabarito);
+
+}
+
+}
+
+class Questao {
+
+private int bimestre;
+
+private String materia;
+
+private String enunciado;
+
+private List<String> alternativas;
+
+private int respostaCorreta;
+
+public Questao(int bimestre, String materia, String enunciado, List<String> alternativas, int respostaCorreta) {
+
+this.bimestre = bimestre;
+
+this.materia = materia;
+
+this.enunciado = enunciado;
+
+this.alternativas = alternativas;
+
+this.respostaCorreta = respostaCorreta;
+
+}
+
+public int getBimestre() {
+
+return bimestre;
+
+}
+
+public String getMateria() {
+
+return materia;
+
+}
+
+public String getEnunciado() {
+
+return enunciado;
+
+}
+
+public List<String> getAlternativas() {
+
+return alternativas;
+
+}
+
+public int getRespostaCorreta() {
+
+return respostaCorreta;
+
+}
+
+}
+
+class Teste {
+
+private String disciplina;
+
+private Date dataGeracao;
+
+private List<Questao> questoes;
+
+private List<String> gabarito;
+
+public Teste(String disciplina, Date dataGeracao, List<Questao> questoes, List<String> gabarito) {
+
+this.disciplina = disciplina;
+
+this.dataGeracao = dataGeracao;
+
+this.questoes = questoes;
+
+this.gabarito = gabarito;
+
+}
+
+}
